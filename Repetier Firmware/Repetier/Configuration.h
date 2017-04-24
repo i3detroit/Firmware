@@ -26,11 +26,6 @@ Hacker H2        = 6
 // 1 is standard, 2 is with the Y coupler for dual filament input
 #define NUM_EXTRUDER 1
 
-// ### CLONE settings ###
-// 0 is none, for just a standard single extruder/nozzle setup
-// 1 is dual input filament setups - this is for the pins.h file to configure the second input reading
-// 2 NOT USED YET, but will be for dual independent hotends/nozzles/extruders
-#define CLONE 0
 
 // ############################################################################################
 // ################# BASIC CONFIGURATION IS ALL DONE ABOVE HERE ###############################

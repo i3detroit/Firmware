@@ -7,7 +7,7 @@ Rostock MAX v3   = 5
 Hacker H2        = 6
 */
 // ### Define your Printer Model here! ###
-#define PRINTER 5
+#define PRINTER 2
 
 // SeeMeCNC Bowden w/PEEK barrel = 1
 // HE240 on ERIS w/accel probe   = 2
@@ -37,7 +37,7 @@ Hacker H2        = 6
 // ############ FW version info and build date for LCD and M115 string! #######################
 // ############################################################################################
 #define REPETIER_VERSION "0.92.2"
-#define FIRMWARE_DATE "20170414" // in date format yyyymmdd
+#define FIRMWARE_DATE "20170514" // in date format yyyymmdd
 
 #ifndef CONFIGURATION_H
 #define CONFIGURATION_H
@@ -134,7 +134,7 @@ Hacker H2        = 6
 #define EXT0_HEATER_PIN HEATER_0_PIN
 #define EXT0_STEP_PIN ORIG_E0_STEP_PIN
 #define EXT0_DIR_PIN ORIG_E0_DIR_PIN
-#define EXT0_INVERSE 1
+#define EXT0_INVERSE 0
 #define EXT0_ENABLE_PIN E0_ENABLE_PIN
 #define EXT0_ENABLE_ON 0
 #define EXT0_MAX_FEEDRATE 100
@@ -262,9 +262,6 @@ Hacker H2        = 6
 #define MAX_ZJERK 28
 #if HOTEND == 3
 #define FEATURE_Z_PROBE 1
-#else
-#define FEATURE_Z_PROBE 0
-#endif
 #define Z_PROBE_SENSITIVITY  20 // 0-126 7 bit value
 #define Z_PROBE_BED_DISTANCE 20
 #define Z_PROBE_PULLUP 1 //0
@@ -287,6 +284,9 @@ Hacker H2        = 6
 #define Z_PROBE_Y2 -43.84
 #define Z_PROBE_X3 0
 #define Z_PROBE_Y3 87.69
+#else
+#define FEATURE_Z_PROBE 0
+#endif
 #define SDSUPPORT 1
 #define SDCARDDETECT 81
 #define SDCARDDETECTINVERTED 0
@@ -309,9 +309,9 @@ Hacker H2        = 6
 #define EXT0_PID_D 53.41
 #define EXT0_PID_MAX 235
 #define HAVE_HEATED_BED 1
-#define INVERT_X_DIR 1
+#define INVERT_X_DIR 0
 #define INVERT_Y_DIR 0
-#define INVERT_Z_DIR 1
+#define INVERT_Z_DIR 0
 #define DELTA_DIAGONAL_ROD 291.06  // ball cup arms
 #define DELTA_MAX_RADIUS 145.0
 #define PRINTER_RADIUS 200.0

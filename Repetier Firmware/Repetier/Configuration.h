@@ -24,6 +24,10 @@ Hacker H2        = 6
 
 // ### Number of active extruders
 // 1 is standard, 2 is with the Y coupler for dual filament input
+//
+// WARNING: There is a known bug in Repetier that causes random tool changes when using dual
+// extrusion if you have the USB cable connected. In order to avoid this, only print from
+// the SD card if you are running two extruders.
 #define NUM_EXTRUDER 1
 
 
@@ -37,7 +41,7 @@ Hacker H2        = 6
 // ############ FW version info and build date for LCD and M115 string! #######################
 // ############################################################################################
 #define REPETIER_VERSION "0.92.2"
-#define FIRMWARE_DATE "20170514" // in date format yyyymmdd
+#define FIRMWARE_DATE "20171204" // in date format yyyymmdd
 
 #ifndef CONFIGURATION_H
 #define CONFIGURATION_H
@@ -49,14 +53,13 @@ Hacker H2        = 6
 #define MICROSTEP_MODES {16,16,16,16,16} // 1,2,4,8,16
 #if MOTHERBOARD == 301  // RAMBo
 #define STEPPER_CURRENT_CONTROL CURRENT_CONTROL_DIGIPOT
-#define MOTOR_CURRENT {140,140,140,130,0}
 #elif MOTHERBOARD == 302  // Mini RAMBo
 #define STEPPER_CURRENT_CONTROL CURRENT_CONTROL_PWM
 #define MOTOR_CURRENT_PWM_RANGE 2000
 #endif
 
 #define Z_LIFT_ON_PAUSE 20         // Amount to lift the head (mm) when pausing from the LCD screen
-#define MIN_DEFECT_TEMPERATURE 17  // this is the min temp that will allow the hotend to start heating.  Below this it will show as defective to help identify bad thermistors
+#define MIN_DEFECT_TEMPERATURE 16  // this is the min temp that will allow the hotend to start heating.  Below this it will show as defective to help identify bad thermistors
 #define MAX_DEFECT_TEMPERATURE 300 // this is the max temp that wthe printer will throw errors about defective thermistors
 
 #define MIXING_EXTRUDER 0
@@ -102,17 +105,17 @@ Hacker H2        = 6
 #elif HOTEND == 3
 #define MAXTEMP 290
 #define UI_SET_MAX_EXTRUDER_TEMP 280
-#define EXT0_PID_INTEGRAL_DRIVE_MAX 180
+#define EXT0_PID_INTEGRAL_DRIVE_MAX 230
 #define EXT0_PID_INTEGRAL_DRIVE_MIN 80
-#define EXT0_PID_PGAIN_OR_DEAD_TIME 14.50
-#define EXT0_PID_I 0.73
-#define EXT0_PID_D 53.41
+#define EXT0_PID_PGAIN_OR_DEAD_TIME 48.3
+#define EXT0_PID_I 9.7
+#define EXT0_PID_D 60.0
 #define EXT0_PID_MAX 255
-#define EXT1_PID_INTEGRAL_DRIVE_MAX 180
+#define EXT1_PID_INTEGRAL_DRIVE_MAX 230
 #define EXT1_PID_INTEGRAL_DRIVE_MIN 80
-#define EXT1_PID_PGAIN_OR_DEAD_TIME 14.50
-#define EXT1_PID_I 0.73
-#define EXT1_PID_D 53.41
+#define EXT1_PID_PGAIN_OR_DEAD_TIME 48.3
+#define EXT1_PID_I 9.7
+#define EXT1_PID_D 60.0
 #define EXT1_PID_MAX 255
 #endif
 // using PWM not PDM
@@ -223,12 +226,6 @@ Hacker H2        = 6
 #elif MOTHERBOARD == 302
 #define MOTOR_CURRENT_PWM {60, 60, 130}
 #endif
-#define EXT0_PID_INTEGRAL_DRIVE_MAX 180
-#define EXT0_PID_INTEGRAL_DRIVE_MIN 80
-#define EXT0_PID_PGAIN_OR_DEAD_TIME 14.50
-#define EXT0_PID_I 0.73
-#define EXT0_PID_D 53.41
-#define EXT0_PID_MAX 235
 #define HAVE_HEATED_BED 1
 #define INVERT_X_DIR 1
 #if POWER_SUPPLY == 2
@@ -302,12 +299,6 @@ Hacker H2        = 6
 #elif NUM_EXTRUDER == 2
 #define MOTOR_CURRENT {140,140,140,130,130}
 #endif
-#define EXT0_PID_INTEGRAL_DRIVE_MAX 180
-#define EXT0_PID_INTEGRAL_DRIVE_MIN 80
-#define EXT0_PID_PGAIN_OR_DEAD_TIME 14.50
-#define EXT0_PID_I 0.73
-#define EXT0_PID_D 53.41
-#define EXT0_PID_MAX 235
 #define HAVE_HEATED_BED 1
 #define INVERT_X_DIR 0
 #define INVERT_Y_DIR 0
@@ -370,13 +361,6 @@ Hacker H2        = 6
 
 #elif PRINTER == 3  // ERIS Delta
 #define MOTOR_CURRENT_PWM {20, 20, 130}
-#define EXT0_PID_INTEGRAL_DRIVE_MAX 200
-#define EXT0_PID_INTEGRAL_DRIVE_MIN 120
-#define EXT0_PID_PGAIN_OR_DEAD_TIME 25.0
-#define EXT0_PID_I 0.85
-#define EXT0_PID_D 176.0
-#define EXT0_PID_MAX 210
-#define MOTOR_CURRENT_PWM {20, 20, 130}
 #define INVERT_X_DIR 0
 #define INVERT_Y_DIR 0
 #define INVERT_Z_DIR 0
@@ -428,10 +412,10 @@ Hacker H2        = 6
 #define UI_PRINTER_NAME "ERIS Delta"
 #define FEATURE_CONTROLLER 0
 #define HAVE_HEATED_BED 0
+#define FAN_BOARD_PIN 6  //Cooling fan on RAMBo board
 
 
 #elif PRINTER == 5  // Rostock MAX v3
-#define FAN_BOARD_PIN 6  //Cooling fan on RAMBo board
 #if NUM_EXTRUDER == 1
 #define MOTOR_CURRENT {140,140,140,130,0}
 #elif NUM_EXTRUDER == 2
@@ -497,17 +481,11 @@ Hacker H2        = 6
 #if NUM_EXTRUDER == 1
 #define MOTOR_CURRENT {140,140,140,130,0}
 #elif NUM_EXTRUDER == 2
-#define MOTOR_CURRENT {140,140,140,145,145}
+#define MOTOR_CURRENT {140,140,140,130,130}
 #endif
 #elif MOTHERBOARD == 302
 #define MOTOR_CURRENT_PWM {100, 100, 130}
 #endif
-#define EXT0_PID_INTEGRAL_DRIVE_MAX 180
-#define EXT0_PID_INTEGRAL_DRIVE_MIN 80
-#define EXT0_PID_PGAIN_OR_DEAD_TIME 14.50
-#define EXT0_PID_I 0.73
-#define EXT0_PID_D 53.41
-#define EXT0_PID_MAX 255
 #define INVERT_X_DIR 1
 #define INVERT_Y_DIR 1
 #define INVERT_Z_DIR 1
@@ -827,7 +805,7 @@ Values must be in range 1..255
 #define BEEPER_LONG_SEQUENCE 32,4
 #define UI_SET_PRESET_HEATED_BED_TEMP_PLA 60
 #define UI_SET_PRESET_EXTRUDER_TEMP_PLA   180
-#define UI_SET_PRESET_HEATED_BED_TEMP_ABS 100
+#define UI_SET_PRESET_HEATED_BED_TEMP_ABS 80
 #define UI_SET_PRESET_EXTRUDER_TEMP_ABS   200
 #define UI_SET_MIN_HEATED_BED_TEMP  30
 #define UI_SET_MAX_HEATED_BED_TEMP 120
